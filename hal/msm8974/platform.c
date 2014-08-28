@@ -225,6 +225,7 @@ static char * device_table[SND_DEVICE_MAX] = {
     [SND_DEVICE_IN_VOICE_REC_MIC_NS] = "voice-rec-mic",
     [SND_DEVICE_IN_VOICE_REC_DMIC_STEREO] = "voice-rec-dmic-ef",
     [SND_DEVICE_IN_VOICE_REC_DMIC_FLUENCE] = "voice-rec-dmic-ef-fluence",
+    [SND_DEVICE_IN_VOICE_REC_MIC_MOD] = "voice-rec-mic-mod", /* hammerhead: fix for poor audio when using the camcorder */ 
     [SND_DEVICE_IN_USB_HEADSET_MIC] = "usb-headset-mic",
     [SND_DEVICE_IN_CAPTURE_FM] = "capture-fm",
     [SND_DEVICE_IN_AANC_HANDSET_MIC] = "aanc-handset-mic",
@@ -299,6 +300,7 @@ static int acdb_device_table[SND_DEVICE_MAX] = {
     [SND_DEVICE_IN_VOICE_TTY_HCO_HEADSET_MIC] = 16,
     [SND_DEVICE_IN_VOICE_REC_HEADSET_MIC] = 8,
     [SND_DEVICE_IN_VOICE_REC_MIC] = 4,
+    [SND_DEVICE_IN_VOICE_REC_MIC_MOD] = 62, /* hammerhead: fix for poor audio when using the camcorder */
     [SND_DEVICE_IN_VOICE_REC_MIC_NS] = 107,
     [SND_DEVICE_IN_VOICE_REC_DMIC_STEREO] = 34,
     [SND_DEVICE_IN_VOICE_REC_DMIC_FLUENCE] = 41,
@@ -1287,7 +1289,9 @@ snd_device_t platform_get_input_snd_device(void *platform, audio_devices_t out_d
     } else if (source == AUDIO_SOURCE_CAMCORDER) {
         if (in_device & AUDIO_DEVICE_IN_BUILTIN_MIC ||
             in_device & AUDIO_DEVICE_IN_BACK_MIC) {
-            snd_device = SND_DEVICE_IN_CAMCORDER_MIC;
+          //snd_device = SND_DEVICE_IN_CAMCORDER_MIC;  /* hammerhead stock: this "device" is employing a very aggressive noise suppression algorithm */
+	  snd_device = SND_DEVICE_IN_VOICE_REC_MIC_MOD; /* hammerhead: fix for poor audio when using the camcorder: this "device" is not using any noise suppression */
+	  
         }
     } else if (source == AUDIO_SOURCE_VOICE_RECOGNITION) {
         if (in_device & AUDIO_DEVICE_IN_WIRED_HEADSET) {

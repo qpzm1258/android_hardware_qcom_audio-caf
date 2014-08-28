@@ -128,6 +128,7 @@ enum {
     SND_DEVICE_IN_VOIP_HANDSET_MIC,
     SND_DEVICE_IN_VOIP_SPEAKER_MIC,
     SND_DEVICE_IN_VOIP_HEADSET_MIC,
+    SND_DEVICE_IN_VOICE_REC_MIC_MOD, /* hammerhead: fix for poor audio when using the camcorder */
     SND_DEVICE_IN_END,
 
     SND_DEVICE_MAX = SND_DEVICE_IN_END,
